@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { actividades } from "@/data/actividades";
 import { DataTable } from "@/components/DataTable";
+import Figures from "@/components/Figures";
 
 export function generateStaticParams() {
   return actividades.map((a) => ({ id: String(a.id) }));
@@ -43,19 +44,10 @@ export default async function Actividad({ params }) {
           )}
         </h1>
         <div className="objetivo">{a.objetivo}</div>
+        {a.intro && <p className="act-intro">{a.intro}</p>}
       </header>
 
-      {a.img && (
-        <div className="figures">
-          {a.img.map((im) => (
-            <figure key={im.src}>
-              <img src={im.src} alt={im.caption} />
-              <figcaption>{im.caption}</figcaption>
-              {im.desc && <p className="fig-desc">{im.desc}</p>}
-            </figure>
-          ))}
-        </div>
-      )}
+      {a.img && <Figures images={a.img} />}
 
       {a.pilares && (
         <section className="section">
