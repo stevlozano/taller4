@@ -51,6 +51,7 @@ export default async function Actividad({ params }) {
             <figure key={im.src}>
               <img src={im.src} alt={im.caption} />
               <figcaption>{im.caption}</figcaption>
+              {im.desc && <p className="fig-desc">{im.desc}</p>}
             </figure>
           ))}
         </div>
@@ -60,10 +61,11 @@ export default async function Actividad({ params }) {
         <section className="section">
           <h2 className="eb">Los seis pilares</h2>
           <div className="pillars">
-            {a.pilares.map(([name, desc]) => (
+            {a.pilares.map(([name, desc, explain]) => (
               <div className="pillar" key={name}>
                 <strong>{name}</strong>
                 <span>{desc}</span>
+                {explain && <p className="pillar-more">{explain}</p>}
               </div>
             ))}
           </div>

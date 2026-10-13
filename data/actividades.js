@@ -14,12 +14,36 @@ export const actividades = [
     objetivo:
       "Reconocer los principios para construir una arquitectura AWS segura, eficiente, fiable y optimizada.",
     pilares: [
-      ["Excelencia operativa", "Monitorear y mejorar continuamente"],
-      ["Seguridad", "Proteger usuarios, servidores y datos"],
-      ["Fiabilidad", "Recuperarse de fallos"],
-      ["Eficiencia del rendimiento", "Utilizar adecuadamente los recursos"],
-      ["Optimización de costos", "Evitar recursos innecesarios"],
-      ["Sostenibilidad", "Utilizar eficientemente los recursos"],
+      [
+        "Excelencia operativa",
+        "Monitorear y mejorar continuamente",
+        "No alcanza con dejar corriendo: hay que medir. Se aplica con CloudWatch (métricas y alarmas) y revisando los procesos después de cada cambio.",
+      ],
+      [
+        "Seguridad",
+        "Proteger usuarios, servidores y datos",
+        "Permisos mínimos en IAM, Security Groups que solo abren lo necesario (puerto 80 en el lab) y cifrado de los volúmenes EBS.",
+      ],
+      [
+        "Fiabilidad",
+        "Recuperarse de fallos",
+        "Que un fallo no deje a todos sin servicio: dos instancias detrás de un Load Balancer y reemplazo automático de lo que se cae.",
+      ],
+      [
+        "Eficiencia del rendimiento",
+        "Utilizar adecuadamente los recursos",
+        "El tamaño correcto en el momento correcto: instancias t3.micro en el laboratorio y Auto Scaling para subir o bajar según la demanda.",
+      ],
+      [
+        "Optimización de costos",
+        "Evitar recursos innecesarios",
+        "Pagar solo lo que se usa: terminar lo que no funciona, dimensionar bien y actuar sobre las recomendaciones de Trusted Advisor.",
+      ],
+      [
+        "Sostenibilidad",
+        "Utilizar eficientemente los recursos",
+        "Mismo principio que costos, pero mirando el impacto: evitar infraestructura ociosa que consume energía sin necesidad.",
+      ],
     ],
     tabla: {
       cols: ["Problema", "Riesgo", "Pilar", "Solución AWS"],
@@ -33,7 +57,13 @@ export const actividades = [
     nota: "Acciones complementarias: permisos mínimos en IAM, reglas específicas de Security Groups, cifrado de EBS y HTTPS; retirar recursos inactivos.",
     cierre:
       "La mejora prioritaria es eliminar el punto único de fallo y detectar incidentes oportunamente; los seis pilares orientan las decisiones y se revisan con mediciones.",
-    img: [{ src: "/img/pilares.png", caption: "Los seis pilares" }],
+    img: [
+      {
+        src: "/img/pilares.png",
+        caption: "Los seis pilares",
+        desc: "Los seis pilares del Well-Architected Framework. Cada tarjeta resume de qué se encarga el pilar; sirve para revisar con el equipo cuáles aplican al caso: por ejemplo, el servidor único toca Fiabilidad y el monitoreo toca Excelencia operativa.",
+      },
+    ],
   },
   {
     id: 2,
@@ -72,7 +102,18 @@ systemctl enable --now httpd`,
     ],
     tituloPuntos2: "Si la página no responde",
     nota: "Al terminar el laboratorio: terminar la instancia y eliminar los recursos propios (volúmenes e IPs reservadas).",
-    img: [{ src: "/img/ec2_launch.png", caption: "Configuración de la instancia" }],
+    img: [
+      {
+        src: "/img/ec2_launch.png",
+        caption: "Configuración de la instancia",
+        desc: "El formulario Launch instance con la configuración del taller: nombre WEB-SERVER-01, Amazon Linux 2023, tipo t3.micro (gratuito), VPC con subred pública y Security Group que solo abre el puerto 80. El script de User data se pega en Advanced details para que la página se publique sola al primer arranque.",
+      },
+      {
+        src: "/img/pag_web.png",
+        caption: "Página publicada en EC2",
+        desc: "Resultado esperado: al abrir http://IP_PUBLICA en el navegador aparece la página con el título “Servidor Web AWS – Grupo 01”. Si no carga, revisar la IP, el puerto 80 en el Security Group y el log de User data (/var/log/cloud-init-output.log).",
+      },
+    ],
   },
   {
     id: 3,
@@ -98,8 +139,16 @@ systemctl enable --now httpd`,
     nota: "Tip: ambas instancias deben quedar con el mismo contenido y el mismo Security Group para que la demo del balanceo se vea bien.",
     pregunta: "¿Qué sucede si EC2-01 deja de funcionar? → el ALB lo marca como no saludable y el tráfico continúa por EC2-02.",
     img: [
-      { src: "/img/diag_inicial.png", caption: "Arquitectura inicial" },
-      { src: "/img/diag_propuesta.png", caption: "Propuesta con 2 instancias" },
+      {
+        src: "/img/diag_inicial.png",
+        caption: "Arquitectura inicial",
+        desc: "Punto de partida: Internet llega a una sola instancia (EC2-01) y de ahí a la aplicación. Es el punto único de fallo — si esa instancia se detiene o pierde la conexión, la aplicación deja de responder para todos los usuarios.",
+      },
+      {
+        src: "/img/diag_propuesta.png",
+        caption: "Propuesta con 2 instancias",
+        desc: "Propuesta: el Load Balancer recibe todo el tráfico y lo reparte entre EC2-01 y EC2-02. Si una cae, el ALB la marca como no saludable y sigue enviando peticiones a la otra; por eso la aplicación se mantiene en línea. Ese es exactamente el ejercicio de la actividad.",
+      },
     ],
   },
   {
@@ -150,7 +199,13 @@ systemctl enable --now httpd`,
       "Detener EC2-01 y seguir recargando: la app sigue en línea.",
     ],
     nota: "Regla de oro: revisar primero el estado de los targets, luego los Security Group y por último el listener.",
-    img: [{ src: "/img/elb_demo.png", caption: "Demostración: el tráfico se distribuye" }],
+    img: [
+      {
+        src: "/img/elb_demo.png",
+        caption: "Demostración: el tráfico se distribuye",
+        desc: "El navegador siempre consulta la misma dirección (el DNS del ALB), pero las respuestas alternan entre el Servidor WEB 01 y el WEB 02. En la demo se refresca la página varias veces para verlo y luego se detiene EC2-01 para comprobar que la app sigue en línea.",
+      },
+    ],
   },
   {
     id: 5,
@@ -175,7 +230,13 @@ systemctl enable --now httpd`,
       ],
     },
     nota: "Actividad: crear una alarma de CPU — si el uso supera un porcentaje durante un periodo establecido, generar una alerta. Esa métrica es la que disparará el Auto Scaling de la Actividad 7.",
-    img: [{ src: "/img/cloudwatch.png", caption: "Métricas y alarma de CPU" }],
+    img: [
+      {
+        src: "/img/cloudwatch.png",
+        caption: "Métricas y alarma de CPU",
+        desc: "Curva de CPU de la instancia en CloudWatch durante 14 minutos: sube hasta ~80 % y la línea roja punteada es la alarma configurada al 70 %. Cuando el uso supera el umbral durante el periodo definido, CloudWatch genera la alerta — y esa misma métrica será la que dispare el Auto Scaling en la Actividad 7.",
+      },
+    ],
   },
   {
     id: 6,
@@ -198,7 +259,13 @@ systemctl enable --now httpd`,
       "Porque analiza los recursos de la cuenta y ofrece recomendaciones para optimizar seguridad, rendimiento, costos y tolerancia a fallos; permite corregir configuraciones inadecuadas y aplicar buenas prácticas. Las comprobaciones disponibles dependen del plan de soporte.",
     pregunta: "¿Por qué Trusted Advisor ayuda a mejorar una arquitectura AWS?",
     nota: "Actividad: registrar al menos 3 recomendaciones con su categoría, riesgo y acción propuesta.",
-    img: [{ src: "/img/trusted_advisor.png", caption: "Recomendaciones por categoría" }],
+    img: [
+      {
+        src: "/img/trusted_advisor.png",
+        caption: "Recomendaciones por categoría",
+        desc: "Trusted Advisor resumiendo el estado de la cuenta por categoría: verde significa sin problemas y amarillo que hay sugerencias pendientes. El objetivo de la actividad es abrir estas categorías y registrar al menos 3 recomendaciones con su categoría, riesgo y acción propuesta.",
+      },
+    ],
   },
   {
     id: 7,
@@ -238,8 +305,21 @@ systemctl enable --now httpd`,
     nota: "Idea central: subir la capacidad antes del pico, escalar durante la campaña y volver al mínimo al terminar (pagar solo lo que se usa).",
     pregunta: "Pregunta para el equipo: ¿cómo debería responder la infraestructura si el pico dura toda la noche y no solo dos horas?",
     img: [
-      { src: "/img/antes_despues.png", caption: "La demanda sube y las instancias aumentan con ella" },
-      { src: "/img/autoscaling.png", caption: "Auto Scaling" },
+      {
+        src: "/img/reto.png",
+        caption: "La demanda sube y las instancias aumentan con ella",
+        desc: "La curva blanca es la cantidad de usuarios y la línea verde el número de instancias EC2. La banda gris es el fin de semana de campaña: la capacidad sube por escalones justo antes del pico (de 2 a 4, o hasta 8 en campaña) y vuelve al mínimo al terminar; así solo se paga por lo que se usa.",
+      },
+      {
+        src: "/img/antes_despues.png",
+        caption: "Antes: una sola instancia · Después: ALB + Auto Scaling",
+        desc: "A la izquierda la arquitectura original: Internet llega a una EC2 única que sirve la aplicación, con 1 punto de fallo si esa instancia se cae. A la derecha la propuesta: el ALB reparte el tráfico entre EC2-01 y EC2-02, y Auto Scaling + CloudWatch añaden o quitan instancias según la demanda, de modo que una caída no deja el servicio fuera.",
+      },
+      {
+        src: "/img/autoscaling.png",
+        caption: "Cómo se reparte y escala la carga",
+        desc: "Los usuarios llegan al Load Balancer, que reparte las peticiones entre las EC2 del Auto Scaling Group. Si la demanda crece, el grupo lanza nuevas EC2 “según la demanda” desde el Launch Template y el ALB las registra al pasar el health check; cuando la demanda baja, las termina. Así se respeta el mínimo y el máximo configurados (2–4 normal, 4–8 en campaña) con la meta de CPU del 60 %.",
+      },
     ],
   },
   {
@@ -259,8 +339,11 @@ systemctl enable --now httpd`,
     tituloPasos: "Las cinco mejoras con mayor impacto",
     nota: "Cada mejora se justifica con un pilar del Well-Architected: fiabilidad, seguridad, eficiencia u optimización de costos.",
     img: [
-      { src: "/img/reto.png", caption: "El reto" },
-      { src: "/img/arquitectura_final.png", caption: "Arquitectura final propuesta" },
+      {
+        src: "/img/arquitectura_final.png",
+        caption: "Arquitectura final propuesta",
+        desc: "El reto era resolver disponibilidad, datos, rendimiento y seguridad con los servicios del taller; esta es la propuesta de cierre: usuarios → Internet → Application Load Balancer → dos instancias EC2 dentro de un Auto Scaling Group, con CloudWatch monitoreando y alarmas avisando. Cada componente corresponde a un pilar del Well-Architected (fiabilidad, seguridad, eficiencia y costos). Buen momento para preguntar al grupo qué agregarían ellos.",
+      },
     ],
   },
 ];
