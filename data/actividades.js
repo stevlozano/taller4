@@ -1,7 +1,7 @@
 export const integrantes = [
   { n: 1, nombre: "Manuel Antonio Garay Rivera", act: [1, 2] },
   { n: 2, nombre: "Stev Lozano", act: [3, 4] },
-  { n: 3, nombre: "Integrante 3", act: [5, 6] },
+  { n: 3, nombre: "Alejandro", act: [5, 6] },
   { n: 4, nombre: "Oswaldo", act: [7, 8] },
 ];
 
@@ -211,7 +211,7 @@ systemctl enable --now httpd`,
     id: 5,
     area: "Monitoreo",
     titulo: "Monitorear recursos y aplicaciones en tiempo real",
-    integrante: "Integrante 3",
+    integrante: "Alejandro",
     objetivo:
       "Supervisar el comportamiento de las instancias y detectar situaciones anormales con Amazon CloudWatch.",
     puntos: [
@@ -242,7 +242,7 @@ systemctl enable --now httpd`,
     id: 6,
     area: "Optimización",
     titulo: "Configurar AWS Trusted Advisor",
-    integrante: "Integrante 3",
+    integrante: "Alejandro",
     objetivo:
       "Utilizar Trusted Advisor para identificar oportunidades de mejora en la cuenta del laboratorio.",
     puntos: ["Seguridad.", "Rendimiento.", "Costos.", "Tolerancia a fallos.", "Límites de servicio."],

@@ -10,8 +10,8 @@ Las 8 actividades del taller, una por ruta:
 | `/actividades/2` | Publicar servidores según la carga de trabajo | Manuel Antonio Garay Rivera |
 | `/actividades/3` | Asegurar la fiabilidad y alta disponibilidad | Stev Lozano |
 | `/actividades/4` | Distribuir el tráfico: Application Load Balancer | Stev Lozano |
-| `/actividades/5` | Monitorear recursos y aplicaciones en tiempo real | Integrante 3 |
-| `/actividades/6` | Configurar AWS Trusted Advisor | Integrante 3 |
+| `/actividades/5` | Monitorear recursos y aplicaciones en tiempo real | Alejandro |
+| `/actividades/6` | Configurar AWS Trusted Advisor | Alejandro |
 | `/actividades/7` | Cómo debe responder la infraestructura a la campaña | Oswaldo |
 | `/actividades/8` | 5 mejoras adicionales a la arquitectura | Oswaldo |
 
