@@ -1,0 +1,25 @@
+{
+  "name": "taller-4-aws",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@heroui/react": "^3.2.6",
+    "@heroui/styles": "^3.2.6",
+    "@internationalized/date": "^3.12.4",
+    "@react-aria/ssr": "^3.10.1",
+    "@react-aria/utils": "^3.34.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "next": "^15.5.12",
+    "postcss": "^8.5.30",
+    "react": "19.1.1",
+    "react-aria": "^3.53.1",
+    "react-aria-components": "^1.22.1",
+    "react-dom": "19.1.1",
+    "tailwindcss": "^4.3.3"
+  }
+}
